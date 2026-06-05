@@ -1,0 +1,41 @@
+<div class="app-shell" [attr.data-theme]="bgTheme">
+  <div class="bg-layer"></div>
+
+  <div class="content">
+    <header class="top-bar">
+      <div class="brand">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="brand-icon">
+          <path d="M12 2a10 10 0 1 0 10 10"/>
+          <path d="M12 6v6l4 2"/>
+          <path d="M18 2v4h4"/>
+        </svg>
+        Skyline
+      </div>
+      <app-search-bar (locationSelected)="onLocationSelected($event)"></app-search-bar>
+    </header>
+
+    <main class="main">
+      <div class="loading-state" *ngIf="loading">
+        <div class="spinner"></div>
+        <span>Fetching weather...</span>
+      </div>
+
+      <div class="error-state" *ngIf="error && !loading">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 8v4M12 16h.01"/>
+        </svg>
+        <p>{{ error }}</p>
+      </div>
+
+      <ng-container *ngIf="weather && !loading">
+        <app-weather-hero [data]="weather" [locationName]="locationName"></app-weather-hero>
+        <div class="section-gap"></div>
+        <app-hourly-strip [hours]="todayHours"></app-hourly-strip>
+        <div class="section-gap"></div>
+        <app-daily-forecast [days]="weather.forecast.forecastday"></app-daily-forecast>
+        <div class="footer-space"></div>
+      </ng-container>
+    </main>
+  </div>
+</div>

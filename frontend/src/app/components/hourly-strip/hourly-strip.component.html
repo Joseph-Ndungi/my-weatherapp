@@ -1,0 +1,15 @@
+<div class="section-label">Hourly Forecast</div>
+<div class="strip-wrap">
+  <div class="strip">
+    <div
+      class="hour-item"
+      *ngFor="let h of hours"
+      [class.now]="isCurrentHour(h.time)"
+    >
+      <span class="time">{{ isCurrentHour(h.time) ? 'Now' : getHourLabel(h.time) }}</span>
+      <img [src]="'https:' + h.condition.icon" [alt]="h.condition.text" class="icon" />
+      <span class="temp">{{ h.temp_c | number:'1.0-0' }}°</span>
+      <span class="rain" *ngIf="h.chance_of_rain > 10">{{ h.chance_of_rain }}%</span>
+    </div>
+  </div>
+</div>

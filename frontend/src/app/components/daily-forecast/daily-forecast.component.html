@@ -1,0 +1,19 @@
+<div class="section-label">7-Day Forecast</div>
+<div class="days-list">
+  <div class="day-row" *ngFor="let d of days; let i = index">
+    <span class="day-name">{{ getDayName(d.date, i) }}</span>
+    <div class="day-mid">
+      <img [src]="'https:' + d.day.condition.icon" [alt]="d.day.condition.text" class="icon"/>
+      <span class="rain-chance" *ngIf="d.day.daily_chance_of_rain > 10">
+        {{ d.day.daily_chance_of_rain }}%
+      </span>
+    </div>
+    <div class="temp-range">
+      <span class="low">{{ d.day.mintemp_c | number:'1.0-0' }}°</span>
+      <div class="range-bar">
+        <div class="range-fill" [style.left.%]="getRangeLeft(d)" [style.width.%]="getRangeWidth(d)"></div>
+      </div>
+      <span class="high">{{ d.day.maxtemp_c | number:'1.0-0' }}°</span>
+    </div>
+  </div>
+</div>
