@@ -7,14 +7,13 @@ import { HourData } from '../../services/weather.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './hourly-strip.component.html',
-  styleUrls: ['./hourly-strip.component.scss']
+  styleUrls: ['./hourly-strip.component.scss'],
 })
 export class HourlyStripComponent {
   @Input() hours: HourData[] = [];
 
   getHourLabel(time: string): string {
-    const d = new Date(time);
-    const h = d.getHours();
+    const h = new Date(time).getHours();
     if (h === 0) return '12am';
     if (h === 12) return 'Noon';
     return h < 12 ? `${h}am` : `${h - 12}pm`;

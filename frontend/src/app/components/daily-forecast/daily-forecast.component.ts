@@ -1,16 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ForecastDay } from '../../services/weather.service';
+import { DailyData } from '../../services/weather.service';
 
 @Component({
   selector: 'app-daily-forecast',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './daily-forecast.component.html',
-  styleUrls: ['./daily-forecast.component.scss']
+  styleUrls: ['./daily-forecast.component.scss'],
 })
 export class DailyForecastComponent {
-  @Input() days: ForecastDay[] = [];
+  @Input() days: DailyData[] = [];
 
   getDayName(date: string, index: number): string {
     if (index === 0) return 'Today';
@@ -18,20 +18,20 @@ export class DailyForecastComponent {
   }
 
   get globalMin(): number {
-    return Math.min(...this.days.map(d => d.day.mintemp_c));
+    return Math.min(...this.days.map((d) => d.temp_min));
   }
 
   get globalMax(): number {
-    return Math.max(...this.days.map(d => d.day.maxtemp_c));
+    return Math.max(...this.days.map((d) => d.temp_max));
   }
 
-  getRangeLeft(d: ForecastDay): number {
+  getRangeLeft(d: DailyData): number {
     const span = this.globalMax - this.globalMin || 1;
-    return ((d.day.mintemp_c - this.globalMin) / span) * 100;
+    return ((d.temp_min - this.globalMin) / span) * 100;
   }
 
-  getRangeWidth(d: ForecastDay): number {
+  getRangeWidth(d: DailyData): number {
     const span = this.globalMax - this.globalMin || 1;
-    return ((d.day.maxtemp_c - d.day.mintemp_c) / span) * 100;
+    return ((d.temp_max - d.temp_min) / span) * 100;
   }
 }

@@ -1,17 +1,27 @@
 <div class="hero" *ngIf="data">
   <div class="location-line">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="pin">
-      <path d="M12 21c-4-4-7-7.5-7-11a7 7 0 0 1 14 0c0 3.5-3 7-7 11z"/>
-      <circle cx="12" cy="10" r="2.5"/>
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      class="pin"
+    >
+      <path d="M12 21c-4-4-7-7.5-7-11a7 7 0 0 1 14 0c0 3.5-3 7-7 11z" />
+      <circle cx="12" cy="10" r="2.5" />
     </svg>
-    <span class="city-name">{{ locationName || data.location.name }}</span>
+    <span class="city-name">{{
+      locationName || data.location?.city || data.location?.country
+    }}</span>
   </div>
 
   <div class="temp-block">
-    <span class="temp">{{ data.current.temp_c | number:'1.0-0' }}°</span>
+    <span class="temp">{{ data.current?.temperature | number: "1.0-0" }}°</span>
     <div class="temp-meta">
-      <span class="condition">{{ data.current.condition.text }}</span>
-      <span class="feels">Feels like {{ data.current.feelslike_c | number:'1.0-0' }}°</span>
+      <span class="condition">{{ conditionLabel }}</span>
+      <span class="feels" *ngIf="data.current?.feels_like != null">
+        Feels like {{ data.current?.feels_like | number: "1.0-0" }}°
+      </span>
     </div>
   </div>
 
@@ -19,30 +29,42 @@
 
   <div class="stats-row">
     <div class="stat">
-      <span class="stat-val">{{ data.current.humidity }}%</span>
+      <span class="stat-val">{{ currentHour?.humidity ?? "--" }}%</span>
       <span class="stat-label">Humidity</span>
     </div>
     <div class="divider"></div>
     <div class="stat">
-      <span class="stat-val">{{ data.current.wind_kph | number:'1.0-0' }} km/h</span>
-      <span class="stat-label">Wind {{ data.current.wind_dir }}</span>
+      <span class="stat-val"
+        >{{ data.current?.wind_speed | number: "1.0-0" }} km/h</span
+      >
+      <span class="stat-label">Wind</span>
     </div>
     <div class="divider"></div>
     <div class="stat">
-      <span class="stat-val">{{ data.current.uv }}</span>
+      <span class="stat-val">{{ currentHour?.uv_index ?? "--" }}</span>
       <span class="stat-label">UV Index</span>
     </div>
     <div class="divider"></div>
     <div class="stat">
-      <span class="stat-val">{{ data.current.vis_km }} km</span>
-      <span class="stat-label">Visibility</span>
+      <span class="stat-val"
+        >{{ currentHour?.feels_like | number: "1.0-0" }}°</span
+      >
+      <span class="stat-label">Feels like</span>
     </div>
   </div>
 
   <div class="ai-summary" *ngIf="data.ai_summary">
     <div class="ai-label">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="ai-icon">
-        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        class="ai-icon"
+      >
+        <polygon
+          points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+        />
       </svg>
       AI Weather Brief
     </div>

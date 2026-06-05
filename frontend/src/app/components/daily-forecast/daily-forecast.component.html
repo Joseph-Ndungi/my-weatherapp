@@ -3,17 +3,21 @@
   <div class="day-row" *ngFor="let d of days; let i = index">
     <span class="day-name">{{ getDayName(d.date, i) }}</span>
     <div class="day-mid">
-      <img [src]="'https:' + d.day.condition.icon" [alt]="d.day.condition.text" class="icon"/>
-      <span class="rain-chance" *ngIf="d.day.daily_chance_of_rain > 10">
-        {{ d.day.daily_chance_of_rain }}%
+      <img [src]="d.icon" [alt]="d.condition_code" class="icon" />
+      <span class="rain-chance" *ngIf="d.precipitation_probability > 10">
+        {{ d.precipitation_probability }}%
       </span>
     </div>
     <div class="temp-range">
-      <span class="low">{{ d.day.mintemp_c | number:'1.0-0' }}°</span>
+      <span class="low">{{ d.temp_min | number: "1.0-0" }}°</span>
       <div class="range-bar">
-        <div class="range-fill" [style.left.%]="getRangeLeft(d)" [style.width.%]="getRangeWidth(d)"></div>
+        <div
+          class="range-fill"
+          [style.left.%]="getRangeLeft(d)"
+          [style.width.%]="getRangeWidth(d)"
+        ></div>
       </div>
-      <span class="high">{{ d.day.maxtemp_c | number:'1.0-0' }}°</span>
+      <span class="high">{{ d.temp_max | number: "1.0-0" }}°</span>
     </div>
   </div>
 </div>

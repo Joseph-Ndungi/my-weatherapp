@@ -3,34 +3,60 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-export interface WeatherData {
-  location: { name: string; region: string; country: string; lat: number; lon: number; localtime: string };
-  current: {
-    temp_c: number; temp_f: number; feelslike_c: number;
-    condition: { text: string; icon: string; code: number };
-    wind_kph: number; wind_dir: string;
-    humidity: number; uv: number; vis_km: number;
-    precip_mm: number; pressure_mb: number;
-  };
-  forecast: { forecastday: ForecastDay[] };
-  ai_summary?: string;
+export interface WeatherLocation {
+  lat: number;
+  lon: number;
+  timezone: string;
+  country: string;
+  city?: string;
+  region?: string;
 }
 
-export interface ForecastDay {
-  date: string;
-  day: {
-    maxtemp_c: number; mintemp_c: number;
-    condition: { text: string; icon: string; code: number };
-    totalprecip_mm: number; daily_chance_of_rain: number;
-    avghumidity: number; uv: number;
-  };
-  hour: HourData[];
+export interface CurrentWeather {
+  time: string;
+  temperature: number;
+  feels_like?: number;
+  wind_speed: number;
+  wind_direction: number;
+  condition_code: string;
+  icon: string;
+  humidity?: number;
+  uv_index?: number;
+  visibility?: number;
+  pressure?: number;
 }
 
 export interface HourData {
-  time: string; temp_c: number;
-  condition: { text: string; icon: string; code: number };
-  chance_of_rain: number; humidity: number;
+  time: string;
+  temperature: number;
+  feels_like: number;
+  precipitation_probability: number;
+  wind_speed: number;
+  humidity: number;
+  condition_code: string;
+  icon: string;
+  uv_index: number;
+}
+
+export interface DailyData {
+  date: string;
+  temp_max: number;
+  temp_min: number;
+  condition_code: string;
+  icon: string;
+  precipitation_probability: number;
+  precipitation_sum?: number;
+  wind_max?: number;
+  sunrise?: string;
+  sunset?: string;
+}
+
+export interface WeatherData {
+  location: WeatherLocation;
+  current: CurrentWeather;
+  hourly?: HourData[];
+  daily?: DailyData[];
+  ai_summary?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -39,21 +65,28 @@ export class WeatherService {
 
   constructor(private http: HttpClient) {}
 
-  getWeatherByCoords(lat: number, lon: number, days = 7): Observable<WeatherData> {
+  getWeatherByCoords(
+    lat: number,
+    lon: number,
+    days = 7,
+  ): Observable<WeatherData> {
     const params = new HttpParams()
-      .set('lat', lat).set('lon', lon).set('days', days);
+      .set('lat', lat)
+      .set('lon', lon)
+      .set('days', days);
     return this.http.get<WeatherData>(`${this.api}/weather`, { params });
   }
 
-  getAutoLocation(): Observable<any> {
-    return this.http.get(`${this.api}/geo`);
+  getAutoLocation(): Observable<WeatherData> {
+    return this.http.get<WeatherData>(`${this.api}/geo`);
   }
 
-  searchCity(query: string): Observable<any> {
-    // Use Nominatim (free, no key needed) for geocoding
-    return this.http.get(`https://nominatim.openstreetmap.org/search`, {
+  searchCity(query: string): Observable<any[]> {
+    return this.http.get<any[]>('https://nominatim.openstreetmap.org/search', {
       params: new HttpParams()
-        .set('q', query).set('format', 'json').set('limit', '5')
+        .set('q', query)
+        .set('format', 'json')
+        .set('limit', '5'),
     });
   }
 }
