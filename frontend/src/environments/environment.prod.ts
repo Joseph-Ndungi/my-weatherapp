@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: '/api'
+  apiUrl: 'https://my-weatherapp-2x7h.onrender.com/api',
 };

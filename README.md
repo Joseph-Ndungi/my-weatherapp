@@ -2,20 +2,20 @@
 
 A clean, creative weather application built with **Angular** (frontend) and **Node.js + Express** (backend), powered by the [WeatherAI API](https://weather-ai.co/docs).
 
-**Live demo:** _[add your deployment URL here]_
-**GitHub:** _[this repo]_
+**Live demo:** [MyWeatherApp](https://joseweather.netlify.app/)
+**GitHub:** [RepoLink](https://github.com/Joseph-Ndungi/my-weatherapp/)
 
 ---
 
 ## Stack
 
-| Layer | Tech |
-|---|---|
-| Frontend | Angular 17, TypeScript, SCSS |
-| Backend | Node.js, Express |
-| Weather data | WeatherAI API (v1) |
-| Geocoding | OpenStreetMap Nominatim (free, no key needed) |
-| Deployment | Render (backend) + Netlify (frontend) |
+| Layer        | Tech                                          |
+| ------------ | --------------------------------------------- |
+| Frontend     | Angular 17, TypeScript, SCSS                  |
+| Backend      | Node.js, Express                              |
+| Weather data | WeatherAI API (v1)                            |
+| Geocoding    | OpenStreetMap Nominatim (free, no key needed) |
+| Deployment   | Render (backend) + Netlify (frontend)         |
 
 ---
 
@@ -62,8 +62,8 @@ weatherapp/
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/your-username/skyline-weather.git
-cd skyline-weather
+git clone https://github.com/Joseph-Ndungi/my-weatherapp/
+cd my-weatherapp
 ```
 
 ### 2. Backend
@@ -122,7 +122,7 @@ Open your browser at `http://localhost:4200`. The app will ask for location perm
    ```ts
    export const environment = {
      production: true,
-     apiUrl: 'https://skyline-api.onrender.com/api'
+     apiUrl: "/api",
    };
    ```
 2. Build: `ng build --configuration=production`
@@ -135,13 +135,13 @@ Open your browser at `http://localhost:4200`. The app will ask for location perm
 
 ## API Endpoints (Backend)
 
-| Method | Path | Description |
-|---|---|---|
-| GET | `/api/weather` | Current + forecast + AI summary. Params: `lat`, `lon`, `days`, `units` |
-| GET | `/api/current` | Current conditions only. Params: `lat`, `lon`, `units` |
-| GET | `/api/hourly` | Hourly breakdown. Params: `lat`, `lon`, `units` |
-| GET | `/api/geo` | Auto-detect location from caller IP |
-| GET | `/api/usage` | WeatherAI quota usage |
+| Method | Path           | Description                                                            |
+| ------ | -------------- | ---------------------------------------------------------------------- |
+| GET    | `/api/weather` | Current + forecast + AI summary. Params: `lat`, `lon`, `days`, `units` |
+| GET    | `/api/current` | Current conditions only. Params: `lat`, `lon`, `units`                 |
+| GET    | `/api/hourly`  | Hourly breakdown. Params: `lat`, `lon`, `units`                        |
+| GET    | `/api/geo`     | Auto-detect location from caller IP                                    |
+| GET    | `/api/usage`   | WeatherAI quota usage                                                  |
 
 The API key is held server-side only — never exposed to the browser.
 
